@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from '@emotion/native';
-import { string } from 'prop-types';
+import styled, { css } from '@emotion/native';
+import { string, shape } from 'prop-types';
 
 const Container = styled.View`
   background-color: #467FD3;
@@ -12,7 +12,6 @@ const Container = styled.View`
   position: absolute;
   right: 40px;
   bottom: 40px;
-  /* box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); */
   /* eslint-disable-next-line ts-styled-plugin*/
   elevation: 8;
 `;
@@ -25,12 +24,17 @@ const Label = styled.Text`
 
 CircleButton.propTypes = {
   children: string.isRequired,
+  style: string,
+};
+
+CircleButton.defaultProps = {
+  style: '',
 };
 
 export default function CircleButton(props) {
-  const { children } = props;
+  const { children, style } = props;
   return (
-    <Container>
+    <Container style={css`${style}`}>
       <Label>{children}</Label>
     </Container>
   );
