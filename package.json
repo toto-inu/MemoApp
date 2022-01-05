@@ -10,13 +10,16 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@emotion/native": "^11.0.0",
+    "@emotion/react": "^11.7.1",
     "expo": "^44.0.3",
     "expo-status-bar": "~1.2.0",
     "prop-types": "15.8.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-native": "^0.61.4",
-    "react-native-web": "0.17.1"
+    "react-native": "^0.64.2",
+    "react-native-web": "0.17.1",
+    "tailwind-rn": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
