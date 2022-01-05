@@ -4,6 +4,8 @@ import { View, Text } from 'react-native';
 import tw from 'tailwind-rn';
 import styled from '@emotion/native';
 
+import { Feather } from '@expo/vector-icons';
+
 const MemoListItem = styled.View`
   background-color: #fff;
   flex-direction: row;
@@ -23,7 +25,7 @@ export default function MemoList() {
           <Text style={tw('text-xs leading-4')}>2020年12月24日</Text>
         </View>
         <View>
-          <Text>X</Text>
+          <Feather name="x" size={16} color="#B0B0B0" />
         </View>
       </MemoListItem>
     </View>

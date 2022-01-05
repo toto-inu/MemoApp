@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from '@emotion/native';
-import { string, shape } from 'prop-types';
+import { string } from 'prop-types';
+import { Feather } from '@expo/vector-icons';
 
 const Container = styled.View`
   background-color: #467FD3;
@@ -16,15 +17,9 @@ const Container = styled.View`
   elevation: 8;
 `;
 
-const Label = styled.Text`
-  color: #fff;
-  font-size: 40px;
-  line-height: 40px;
-`;
-
 CircleButton.propTypes = {
-  children: string.isRequired,
   style: string,
+  name: string.isRequired,
 };
 
 CircleButton.defaultProps = {
@@ -32,10 +27,10 @@ CircleButton.defaultProps = {
 };
 
 export default function CircleButton(props) {
-  const { children, style } = props;
+  const { style, name } = props;
   return (
     <Container style={css`${style}`}>
-      <Label>{children}</Label>
+      <Feather name={name} size={32} color="white" />
     </Container>
   );
 }
