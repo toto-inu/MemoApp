@@ -7,7 +7,7 @@ import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButton';
 
 const Container = styled.KeyboardAvoidingView`
-  flex:1;
+  flex: 1;
 `;
 
 const EditorContainer = styled.View`
