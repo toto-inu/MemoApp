@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 // eslint-disable-next-line
 import styled, { css } from "@emotion/native";
@@ -51,12 +51,28 @@ const FooterContainer = styled.View`
 
 export default function LoginScreen(props) {
   const { navigation } = props;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   return (
     <Container>
       <Inner>
         <Title>Sign up</Title>
-        <Input value="Email Address" />
-        <Input value="Password" />
+        <Input
+          value={email}
+          onChangeText={(text) => { setEmail(text); }}
+          placeholder="Email Address"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          textContentType="emailAddress"
+        />
+        <Input
+          value={password}
+          onChangeText={(text) => { setPassword(text); }}
+          placeholder="Password"
+          autoCapitalize="none"
+          secureTextEntry
+          textContentType="password"
+        />
         <Button
           label="Save"
           onPress={() => {
