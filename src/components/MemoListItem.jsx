@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import tw from 'tailwind-rn';
 import styled from '@emotion/native';
@@ -24,9 +24,9 @@ export default function MemoList() {
           <Text style={tw('text-base leading-8')}>買い物リスト</Text>
           <Text style={tw('text-xs leading-4')}>2020年12月24日</Text>
         </View>
-        <View>
+        <TouchableOpacity>
           <Feather name="x" size={16} color="#B0B0B0" />
-        </View>
+        </TouchableOpacity>
       </MemoListItem>
     </View>
   ));

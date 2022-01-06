@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Keyboard } from 'react-native';
+// import { Alert } from 'react-native';
 // eslint-disable-next-line
 import styled, { css } from '@emotion/native';
 

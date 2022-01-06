@@ -1,9 +1,9 @@
 import React from 'react';
 import styled, { css } from '@emotion/native';
-import { string } from 'prop-types';
+import { string, func } from 'prop-types';
 import { Feather } from '@expo/vector-icons';
 
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   background-color: #467FD3;
   width: 64px;
   height: 64px;
@@ -20,16 +20,18 @@ const Container = styled.View`
 CircleButton.propTypes = {
   style: string,
   name: string.isRequired,
+  onPress: func,
 };
 
 CircleButton.defaultProps = {
   style: '',
+  onPress: null,
 };
 
 export default function CircleButton(props) {
-  const { style, name } = props;
+  const { style, name, onPress } = props;
   return (
-    <Container style={css`${style}`}>
+    <Container style={css`${style}`} onPress={onPress}>
       <Feather name={name} size={32} color="white" />
     </Container>
   );

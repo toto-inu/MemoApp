@@ -1,10 +1,10 @@
-import React from "react";
-import { View, Text, TextInput } from "react-native";
+import React from 'react';
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 // eslint-disable-next-line
 import styled, { css } from "@emotion/native";
 
-import AppBar from "../components/AppBar";
-import Button from "../components/Button";
+import AppBar from '../components/AppBar';
+import Button from '../components/Button';
 
 const Container = styled.View`
   flex: 1;
@@ -59,7 +59,9 @@ export default function LoginScreen() {
         <Button label="Submit" />
         <FooterContainer>
           <FooterText>Not registered?</FooterText>
-          <FooterLink>Sign up here!</FooterLink>
+          <TouchableOpacity>
+            <FooterLink>Sign up here!</FooterLink>
+          </TouchableOpacity>
         </FooterContainer>
       </Inner>
     </Container>
