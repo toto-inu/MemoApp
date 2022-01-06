@@ -1,4 +1,6 @@
 import React from 'react';
+// import { Keyboard } from 'react-native';
+// eslint-disable-next-line
 import styled, { css } from '@emotion/native';
 
 import AppBar from '../components/AppBar';
@@ -27,6 +29,7 @@ export default function MemoEditScreen() {
       <AppBar />
       <EditorContainer>
         <Editor multiline value="買い物リスト" />
+        {/* <Editor multiline value="買い物リスト" onSubmitEditing={Keyboard.dismiss} /> */}
       </EditorContainer>
       <CircleButton name="check" />
     </Container>
