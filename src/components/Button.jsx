@@ -13,7 +13,8 @@ const ButtonContainer = styled.TouchableOpacity`
 
 const ButtonLabel = styled.Text`
   font-size: 16px;
-  line-height: 32;
+  // これだー！
+  line-height: 32px;
   padding: 8px 32px;
   color: #fff;
 `;

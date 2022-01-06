@@ -3,7 +3,6 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 // eslint-disable-next-line
 import styled, { css } from "@emotion/native";
 
-import AppBar from '../components/AppBar';
 import Button from '../components/Button';
 
 const Container = styled.View`
@@ -17,7 +16,8 @@ const Inner = styled.View`
 
 const Title = styled.Text`
   font-size: 24px;
-  line-height: 32;
+  // これだー！
+  line-height: 32px;
   font-weight: bold;
   margin-bottom: 24px;
 `;
@@ -34,7 +34,8 @@ const Input = styled.TextInput`
 
 const FooterText = styled.Text`
   font-size: 14px;
-  line-height: 24;
+  // これだー！
+  line-height: 24px;
   margin-right: 8px;
 `;
 
@@ -48,18 +49,33 @@ const FooterContainer = styled.View`
   flex-direction: row;
 `;
 
-export default function LoginScreen() {
+export default function LoginScreen(props) {
+  const { navigation } = props;
   return (
     <Container>
-      <AppBar />
       <Inner>
         <Title>Sign up</Title>
         <Input value="Email Address" />
         <Input value="Password" />
-        <Button label="Save" />
+        <Button
+          label="Save"
+          onPress={() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'MemoList' }],
+            });
+          }}
+        />
         <FooterContainer>
           <FooterText>Already registered?</FooterText>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Login' }],
+              });
+            }}
+          >
             <FooterLink>Login.</FooterLink>
           </TouchableOpacity>
         </FooterContainer>

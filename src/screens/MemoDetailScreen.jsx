@@ -3,7 +3,6 @@ import React from 'react';
 import styled from '@emotion/native';
 // import { string } from 'prop-types';
 
-import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButton';
 
 const Container = styled.View`
@@ -13,7 +12,7 @@ const Container = styled.View`
 
 const MemoHeader = styled.View`
   background-color: #467FD3;
-  height: 96;
+  height: 96px;
   justify-content: center;
   padding: 24px 19px;
 `;
@@ -21,14 +20,14 @@ const MemoHeader = styled.View`
 const MemoTitle = styled.Text`
   color: #fff;
   font-size: 20px;
-  line-height: 32;
+  line-height: 32px;
   font-weight: bold;
 `;
 
 const MemoDate = styled.Text`
   color: #fff;
   font-size: 12px;
-  line-height:16;
+  line-height:16px;
 `;
 
 const MemoBody = styled.ScrollView`
@@ -37,13 +36,13 @@ const MemoBody = styled.ScrollView`
 
 const MemoText = styled.Text`
   font-size: 16px;
-  line-height: 24;
+  line-height: 24px;
 `;
 
-export default function MemoDetailScreen() {
+export default function MemoDetailScreen(props) {
+  const { navigation } = props;
   return (
     <Container>
-      <AppBar />
       <MemoHeader>
         <MemoTitle>買い物リスト</MemoTitle>
         <MemoDate>2020年12月24日 10:00</MemoDate>
@@ -57,10 +56,11 @@ export default function MemoDetailScreen() {
       </MemoBody>
       <CircleButton
         style={`
-          top: 160px;
+          top: 60px;
           bottom: auto;
         `}
         name="edit-2"
+        onPress={() => { navigation.navigate('MemoEdit'); }}
       />
     </Container>
   );

@@ -2,7 +2,6 @@ import React from 'react';
 // import { View } from 'react-native';
 import styled from '@emotion/native';
 
-import AppBar from '../components/AppBar';
 import MemoList from '../components/MemoListItem';
 import CircleButton from '../components/CircleButton';
 
@@ -11,12 +10,12 @@ const Container = styled.View`
   background-color: #F0F4F8;
 `;
 
-export default function MemoListScreen() {
+export default function MemoListScreen(props) {
+  const { navigation } = props;
   return (
     <Container>
-      <AppBar />
       <MemoList />
-      <CircleButton name="plus" />
+      <CircleButton name="plus" onPress={() => { navigation.navigate('MemoCreate'); }} />
     </Container>
   );
 }

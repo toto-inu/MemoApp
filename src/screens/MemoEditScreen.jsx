@@ -3,7 +3,6 @@ import React from 'react';
 // eslint-disable-next-line
 import styled, { css } from '@emotion/native';
 
-import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButton';
 
 const Container = styled.KeyboardAvoidingView`
@@ -20,18 +19,18 @@ const Editor = styled.TextInput`
   flex: 1;
   text-align-vertical: top;
   font-size: 16px;
-  line-height: 24;
+  line-height: 24px;
 `;
 
-export default function MemoEditScreen() {
+export default function MemoEditScreen(props) {
+  const { navigation } = props;
   return (
     <Container>
-      <AppBar />
       <EditorContainer>
         <Editor multiline value="買い物リスト" />
         {/* <Editor multiline value="買い物リスト" onSubmitEditing={Keyboard.dismiss} /> */}
       </EditorContainer>
-      <CircleButton name="check" />
+      <CircleButton name="check" onPress={() => navigation.goBack()} />
     </Container>
   );
 }
