@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, ScrollView} from 'react-native';
+// import { View, Text, ScrollView} from 'react-native';
 import styled from '@emotion/native';
-import { string } from 'prop-types';
+// import { string } from 'prop-types';
 
 import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButton';
@@ -55,13 +55,13 @@ export default function MemoDetailScreen() {
           本文用なので使い方を間違えると不自然に見えることもあります。
         </MemoText>
       </MemoBody>
-      <CircleButton style={`
-        top: 160px;
-        bottom: auto;
-      `}
-      >
-        +
-      </CircleButton>
+      <CircleButton
+        style={`
+          top: 160px;
+          bottom: auto;
+        `}
+        name="edit-2"
+      />
     </Container>
   );
 }
