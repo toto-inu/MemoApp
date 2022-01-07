@@ -1,9 +1,72 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 // eslint-disable-next-line
 import styled, { css } from "@emotion/native";
+import firebase from 'firebase';
 
 import Button from '../components/Button';
+
+export default function LoginScreen(props) {
+  const { navigation } = props;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handlePress = () => {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const { user } = userCredential;
+        console.log('🐈', user.uid);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      })
+      .catch((err) => {
+        Alert.alert('👹', err.code);
+      });
+  };
+
+  return (
+    <Container>
+      <Inner>
+        <Title>Log In</Title>
+        <Input
+          value={email}
+          onChangeText={(text) => { setEmail(text); }}
+          placeholder="Email Address"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          textContentType="emailAddress"
+        />
+        <Input
+          value={password}
+          onChangeText={(text) => { setPassword(text); }}
+          placeholder="Password"
+          autoCapitalize="none"
+          secureTextEntry
+          textContentType="password"
+        />
+        <Button
+          label="Submit"
+          onPress={handlePress}
+        />
+        <FooterContainer>
+          <FooterText>Not registered?</FooterText>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'SignUp' }],
+              });
+            }}
+          >
+            <FooterLink>Sign up here!</FooterLink>
+          </TouchableOpacity>
+        </FooterContainer>
+      </Inner>
+    </Container>
+  );
+}
 
 const Container = styled.View`
   flex: 1;
@@ -46,54 +109,3 @@ const FooterLink = styled.Text`
 const FooterContainer = styled.View`
   flex-direction: row;
 `;
-
-export default function LoginScreen(props) {
-  const { navigation } = props;
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  return (
-    <Container>
-      <Inner>
-        <Title>Log In</Title>
-        <Input
-          value={email}
-          onChangeText={(text) => { setEmail(text); }}
-          placeholder="Email Address"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-        />
-        <Input
-          value={password}
-          onChangeText={(text) => { setPassword(text); }}
-          placeholder="Password"
-          autoCapitalize="none"
-          secureTextEntry
-          textContentType="password"
-        />
-        <Button
-          label="Submit"
-          onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'MemoList' }],
-            });
-          }}
-        />
-        <FooterContainer>
-          <FooterText>Not registered?</FooterText>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'SignUp' }],
-              });
-            }}
-          >
-            <FooterLink>Sign up here!</FooterLink>
-          </TouchableOpacity>
-        </FooterContainer>
-      </Inner>
-    </Container>
-  );
-}

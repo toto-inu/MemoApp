@@ -18,6 +18,7 @@
     "@react-navigation/stack": "^5.x",
     "expo": "^44.0.3",
     "expo-status-bar": "~1.2.0",
+    "firebase": "8.10.0",
     "prop-types": "15.8.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
