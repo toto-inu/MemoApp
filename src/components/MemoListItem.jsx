@@ -6,13 +6,34 @@ import tw from 'tailwind-rn';
 import styled from '@emotion/native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import firebase from 'firebase';
 
 import { dateToString } from '../utils';
 
 export default function MemoList(props) {
   const navigation = useNavigation();
   const { memos } = props;
-  console.log('🦊', memos);
+
+  const deleteMemo = (id) => {
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser.uid}/memos`).doc(id);
+      Alert.alert('メモを削除します', 'よろしいですか？', [
+        { text: 'キャンセル', onPress: () => {} },
+        {
+          text: '削除する',
+          style: 'destructive',
+          onPress: () => {
+            ref.delete().catch(() => {
+              Alert.alert('削除に失敗しました');
+            });
+          },
+        },
+      ]);
+    }
+  };
+
   const renderItem = ({ item }) => (
     <Container key={item.id}>
       <MemoListItem
@@ -30,7 +51,7 @@ export default function MemoList(props) {
         </View>
         <IconContainer
           onPress={() => {
-            Alert.alert('Are you sure?');
+            deleteMemo(item.id);
           }}
         >
           <Feather name="x" size={16} color="#B0B0B0" />
