@@ -61,7 +61,6 @@ const Container = styled.KeyboardAvoidingView`
 `;
 
 const EditorContainer = styled.View`
-  padding: 32px 27px;
   flex: 1;
 `;
 
@@ -71,4 +70,5 @@ const Editor = styled.TextInput`
   text-align-vertical: top;
   font-size: 16px;
   line-height: 24px;
+  padding: 32px 27px 32px;
 `;

@@ -37,7 +37,9 @@ export default function MemoDetailScreen(props) {
         <MemoDate>{memo && dateToString(memo.updatedAt)}</MemoDate>
       </MemoHeader>
       <MemoBody>
-        <MemoText>{memo && memo.bodyText}</MemoText>
+        <MemoBodyInner>
+          <MemoText>{memo && memo.bodyText}</MemoText>
+        </MemoBodyInner>
       </MemoBody>
       <CircleButton
         style={`
@@ -89,8 +91,10 @@ const MemoDate = styled.Text`
   line-height: 16px;
 `;
 
-const MemoBody = styled.ScrollView`
-  padding: 32px 27px;
+const MemoBody = styled.ScrollView``;
+
+const MemoBodyInner = styled.View`
+  padding: 32px 27px 80px;
 `;
 
 const MemoText = styled.Text`

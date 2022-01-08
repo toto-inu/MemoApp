@@ -41,14 +41,14 @@ export default function MemoList(props) {
           navigation.navigate('MemoDetail', { id: item.id });
         }}
       >
-        <View>
+        <MemoInner>
           <Text style={tw('text-base leading-8')} numberOfLines={1}>
             {item.bodyText}
           </Text>
           <Text style={tw('text-xs leading-4')}>
             {dateToString(item.updatedAt)}
           </Text>
-        </View>
+        </MemoInner>
         <IconContainer
           onPress={() => {
             deleteMemo(item.id);
@@ -92,6 +92,10 @@ const MemoListItem = styled.TouchableOpacity`
   align-items: center;
   border-bottom-width: 1px;
   border-color: rgba(0, 0, 0, 0.15);
+`;
+
+const MemoInner = styled.View`
+  flex: 1;
 `;
 
 const IconContainer = styled.TouchableOpacity`
