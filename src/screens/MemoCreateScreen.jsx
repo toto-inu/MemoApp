@@ -13,16 +13,13 @@ export default function MemoCreateScreen(props) {
   const onPress = () => {
     const db = firebase.firestore();
     const ref = db.collection(`users/${currentUser.uid}/memos`);
-    ref.add({
-      bodyText,
-      updatedAt: new Date(),
-    })
-      .then((docRef) => {
-        console.log('Created!', docRef.id);
-        navigation.goBack();
+    ref
+      .add({
+        bodyText,
+        updatedAt: new Date(),
       })
-      .catch((err) => {
-        console.log('Error!', err);
+      .then(() => {
+        navigation.goBack();
       });
   };
   return (
@@ -31,14 +28,13 @@ export default function MemoCreateScreen(props) {
         <Editor
           multiline
           value={bodyText}
-          onChangeText={(text) => { setBodyText(text); }}
+          onChangeText={(text) => {
+            setBodyText(text);
+          }}
           autoFocus
         />
       </EditorContainer>
-      <CircleButton
-        name="check"
-        onPress={onPress}
-      />
+      <CircleButton name="check" onPress={onPress} />
     </Container>
   );
 }

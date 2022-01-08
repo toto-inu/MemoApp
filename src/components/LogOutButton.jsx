@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { Alert } from 'react-native';
 
 import styled from '@emotion/native';
 import firebase from 'firebase';
@@ -8,15 +8,16 @@ import { useNavigation } from '@react-navigation/native';
 export default function LogOutButton() {
   const navigation = useNavigation();
   const handlePress = () => {
-    firebase.auth().signOut()
+    firebase
+      .auth()
+      .signOut()
       .then(() => {
         navigation.reset({
           index: 0,
           routes: [{ name: 'Login' }],
         });
       })
-      .catch((err) => {
-        console.log('👹', err.message);
+      .catch(() => {
         Alert.alert('ログアウトに失敗しました');
       });
   };

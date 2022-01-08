@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { TouchableOpacity, Alert } from 'react-native';
 // eslint-disable-next-line
-import styled, { css } from "@emotion/native";
+import styled, { css } from '@emotion/native';
 import firebase from 'firebase';
 
 import Button from '../components/Button';
+import Loading from '../components/Loading';
+import { translateErrors } from '../utils';
 
 export default function LoginScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -18,33 +21,46 @@ export default function LoginScreen(props) {
           index: 0,
           routes: [{ name: 'MemoList' }],
         });
+      } else {
+        setIsLoading(false);
       }
     });
     return unsubscribe;
   }, []);
 
   const handlePress = () => {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const { user } = userCredential;
-        console.log('🐈', user.uid);
+    setIsLoading(true);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        // .then((userCredential) => {
+        // const { user } = userCredential;
+        // console.log('🐈', user.uid);
         navigation.reset({
           index: 0,
           routes: [{ name: 'MemoList' }],
         });
       })
       .catch((err) => {
-        Alert.alert('👹', err.code);
+        const errorMessage = translateErrors(err.code);
+        Alert.alert(errorMessage.title, errorMessage.description);
+      })
+      .then(() => {
+        setIsLoading(false);
       });
   };
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
       <Inner>
         <Title>Log In</Title>
         <Input
           value={email}
-          onChangeText={(text) => { setEmail(text); }}
+          onChangeText={(text) => {
+            setEmail(text);
+          }}
           placeholder="Email Address"
           autoCapitalize="none"
           keyboardType="email-address"
@@ -52,16 +68,15 @@ export default function LoginScreen(props) {
         />
         <Input
           value={password}
-          onChangeText={(text) => { setPassword(text); }}
+          onChangeText={(text) => {
+            setPassword(text);
+          }}
           placeholder="Password"
           autoCapitalize="none"
           secureTextEntry
           textContentType="password"
         />
-        <Button
-          label="Submit"
-          onPress={handlePress}
-        />
+        <Button label="Submit" onPress={handlePress} />
         <FooterContainer>
           <FooterText>Not registered?</FooterText>
           <TouchableOpacity

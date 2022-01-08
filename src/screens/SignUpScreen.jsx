@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { TouchableOpacity, Alert } from 'react-native';
 // eslint-disable-next-line
-import styled, { css } from "@emotion/native";
+import styled, { css } from '@emotion/native';
 import firebase from 'firebase';
 
 import Button from '../components/Button';
+import { translateErrors } from '../utils';
 
 export default function LoginScreen(props) {
   const { navigation } = props;
@@ -12,19 +13,21 @@ export default function LoginScreen(props) {
   const [password, setPassword] = useState('');
 
   const handlePress = () => {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // console.log('🐈', userCredential);
-        const { user } = userCredential;
-        console.log('🐕', user.uid);
+        // const { user } = userCredential;
+        // console.log('🐕', user.uid);
         navigation.reset({
           index: 0,
           routes: [{ name: 'MemoList' }],
         });
       })
       .catch((err) => {
-        console.log('👹', err.code, err.message);
-        Alert.alert(err.code);
+        const errorMessage = translateErrors(err.code);
+        Alert.alert(errorMessage.title, errorMessage.description);
       });
   };
 
@@ -34,7 +37,9 @@ export default function LoginScreen(props) {
         <Title>Sign up</Title>
         <Input
           value={email}
-          onChangeText={(text) => { setEmail(text); }}
+          onChangeText={(text) => {
+            setEmail(text);
+          }}
           placeholder="Email Address"
           autoCapitalize="none"
           keyboardType="email-address"
@@ -42,16 +47,15 @@ export default function LoginScreen(props) {
         />
         <Input
           value={password}
-          onChangeText={(text) => { setPassword(text); }}
+          onChangeText={(text) => {
+            setPassword(text);
+          }}
           placeholder="Password"
           autoCapitalize="none"
           secureTextEntry
           textContentType="password"
         />
-        <Button
-          label="Save"
-          onPress={handlePress}
-        />
+        <Button label="Save" onPress={handlePress} />
         <FooterContainer>
           <FooterText>Already registered?</FooterText>
           <TouchableOpacity
