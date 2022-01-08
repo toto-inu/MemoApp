@@ -1,12 +1,55 @@
 import React from 'react';
 import {
-  View, Text, Alert,
+  View, Text, Alert, FlatList,
 } from 'react-native';
+import {
+  string, shape, instanceOf, arrayOf,
+} from 'prop-types';
 
 import tw from 'tailwind-rn';
 import styled from '@emotion/native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+
+export default function MemoList(props) {
+  const navigation = useNavigation();
+  const { memos } = props;
+  console.log('🦊', memos);
+  const renderItem = ({ item }) => (
+    <Container key={item.id}>
+      <MemoListItem onPress={() => { navigation.navigate('MemoDetail'); }}>
+        <View>
+          <Text style={tw('text-base leading-8')} numberOfLines={1}>{item.bodyText}</Text>
+          <Text style={tw('text-xs leading-4')}>{String(item.updatedAt)}</Text>
+        </View>
+        <IconContainer onPress={() => { Alert.alert('Are you sure?'); }}>
+          <Feather name="x" size={16} color="#B0B0B0" />
+        </IconContainer>
+      </MemoListItem>
+    </Container>
+  );
+  return (
+    <View>
+      <FlatList
+        data={memos}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
+    </View>
+  );
+}
+
+MemoList.propTypes = {
+  memos: arrayOf(shape({
+    id: string,
+    bodyText: string,
+    updatedAt: instanceOf(Date),
+  })).isRequired,
+};
+
+const Container = styled.View`
+  flex: 1;
+`;
 
 const MemoListItem = styled.TouchableOpacity`
   background-color: #fff;
@@ -21,20 +64,3 @@ const MemoListItem = styled.TouchableOpacity`
 const IconContainer = styled.TouchableOpacity`
   padding: 8px
 `;
-
-export default function MemoList() {
-  const navigation = useNavigation();
-  return [1, 2, 3, 5].map((el) => (
-    <View key={el}>
-      <MemoListItem onPress={() => { navigation.navigate('MemoDetail'); }}>
-        <View>
-          <Text style={tw('text-base leading-8')}>買い物リスト</Text>
-          <Text style={tw('text-xs leading-4')}>2020年12月24日</Text>
-        </View>
-        <IconContainer onPress={() => { Alert.alert('Are you sure?'); }}>
-          <Feather name="x" size={16} color="#B0B0B0" />
-        </IconContainer>
-      </MemoListItem>
-    </View>
-  ));
-}
