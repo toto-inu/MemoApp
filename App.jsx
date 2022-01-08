@@ -1,7 +1,11 @@
 import { React } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 import firebase from 'firebase';
+import ignoreWarnings from 'react-native-ignore-warnings';
 
 import MemoListScreen from './src/screens/MemoListScreen';
 import MemoDetailScreen from './src/screens/MemoDetailScreen';
@@ -12,17 +16,21 @@ import SignUpScreen from './src/screens/SignUpScreen';
 
 import { firebaseConfig } from './.env';
 
-const Stack = createStackNavigator();
+ignoreWarnings('Setting a timer');
+
+require('firebase/firestore');
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
+const Stack = createStackNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SignUp"
+        initialRouteName="Login"
         screenOptions={{
           headerStyle: { backgroundColor: '#467FD3' },
           headerTitleStyle: { color: '#FFF' },
@@ -42,14 +50,16 @@ export default function App() {
           name="Login"
           component={LoginScreen}
           options={{
-            cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+            cardStyleInterpolator:
+              CardStyleInterpolators.forFadeFromBottomAndroid,
           }}
         />
         <Stack.Screen
           name="SignUp"
           component={SignUpScreen}
           options={{
-            cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+            cardStyleInterpolator:
+              CardStyleInterpolators.forFadeFromBottomAndroid,
           }}
         />
       </Stack.Navigator>

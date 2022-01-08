@@ -1,9 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // import { View, Text, ScrollView} from 'react-native';
 import styled from '@emotion/native';
-// import { string } from 'prop-types';
+import { string, shape } from 'prop-types';
+import firebase from 'firebase';
 
 import CircleButton from '../components/CircleButton';
+import { dateToString } from '../utils';
+
+export default function MemoDetailScreen(props) {
+  const { navigation, route } = props;
+  const { id } = route.params;
+  const [memo, setMemo] = useState('');
+
+  useEffect(() => {
+    const { currentUser } = firebase.auth();
+    const db = firebase.firestore();
+    let unsubscribe = () => {};
+    if (currentUser) {
+      const ref = db.collection(`users/${currentUser.uid}/memos`).doc(id);
+      unsubscribe = ref.onSnapshot((doc) => {
+        console.log('🐈', doc.id, doc.data());
+        const data = doc.data();
+        setMemo({
+          id: doc.id,
+          bodyText: data.bodyText,
+          updatedAt: data.updatedAt.toDate(),
+        });
+      });
+    }
+    return () => unsubscribe;
+  }, []);
+
+  return (
+    <Container>
+      <MemoHeader>
+        <MemoTitle numberOfLines={1}>{memo && memo.bodyText}</MemoTitle>
+        <MemoDate>{memo && dateToString(memo.updatedAt)}</MemoDate>
+      </MemoHeader>
+      <MemoBody>
+        <MemoText>{memo && memo.bodyText}</MemoText>
+      </MemoBody>
+      <CircleButton
+        style={`
+          top: 60px;
+          bottom: auto;
+        `}
+        name="edit-2"
+        onPress={() => {
+          navigation.navigate('MemoEdit');
+        }}
+      />
+    </Container>
+  );
+}
+
+MemoDetailScreen.propTypes = {
+  route: shape({
+    routes: shape({
+      id: string,
+    }),
+  }).isRequired,
+};
 
 const Container = styled.View`
   flex: 1;
@@ -11,7 +68,7 @@ const Container = styled.View`
 `;
 
 const MemoHeader = styled.View`
-  background-color: #467FD3;
+  background-color: #467fd3;
   height: 96px;
   justify-content: center;
   padding: 24px 19px;
@@ -27,7 +84,7 @@ const MemoTitle = styled.Text`
 const MemoDate = styled.Text`
   color: #fff;
   font-size: 12px;
-  line-height:16px;
+  line-height: 16px;
 `;
 
 const MemoBody = styled.ScrollView`
@@ -38,30 +95,3 @@ const MemoText = styled.Text`
   font-size: 16px;
   line-height: 24px;
 `;
-
-export default function MemoDetailScreen(props) {
-  const { navigation } = props;
-  return (
-    <Container>
-      <MemoHeader>
-        <MemoTitle>買い物リスト</MemoTitle>
-        <MemoDate>2020年12月24日 10:00</MemoDate>
-      </MemoHeader>
-      <MemoBody>
-        <MemoText>
-          買い物リスト
-          書体やレイアウトなどを確認するために用います。
-          本文用なので使い方を間違えると不自然に見えることもあります。
-        </MemoText>
-      </MemoBody>
-      <CircleButton
-        style={`
-          top: 60px;
-          bottom: auto;
-        `}
-        name="edit-2"
-        onPress={() => { navigation.navigate('MemoEdit'); }}
-      />
-    </Container>
-  );
-}
